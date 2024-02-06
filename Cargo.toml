@@ -2,6 +2,7 @@
 resolver = "2"
 members = [
   "common",
+  "kafka-dump",
   "events-to-histogram",
   "kafka-daq-report",
   "run-simulator",

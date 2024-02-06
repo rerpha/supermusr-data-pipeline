@@ -1188,6 +1188,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "kafka-dump"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "env_logger",
+ "log",
+ "rdkafka",
+ "supermusr-common",
+ "supermusr-streaming-types",
+ "tokio",
+]
+
+[[package]]
 name = "kagiyama"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
