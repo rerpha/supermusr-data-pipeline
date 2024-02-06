@@ -254,8 +254,9 @@ async fn poll_kafka_msg(consumer: StreamConsumer, shared_data: SharedData) {
                                     None => false,
                                 };
 
-                                let timestamp =
-                                    data.metadata().timestamp().copied().map(|t| t.into());
+                                let timestamp = 
+                                    Some(Utc::now());
+                                    // data.metadata().timestamp().copied().map(|t| t.into());
 
                                 let id = data.digitizer_id();
                                 {
