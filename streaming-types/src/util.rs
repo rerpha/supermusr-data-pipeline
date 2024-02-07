@@ -3,8 +3,6 @@ use chrono::{DateTime, Datelike, NaiveDate, Timelike, Utc};
 
 impl From<GpsTime> for DateTime<Utc> {
     fn from(t: GpsTime) -> Self {
-        println!("t {:?}", t);
-
         let nanosecond = (t.millisecond() as u32 * 1_000_000)
             + (t.microsecond() as u32 * 1_000)
             + (t.nanosecond() as u32);
