@@ -310,4 +310,3 @@ impl NexusMessageHandler<PushEv44EventData<'_>> for EventData {
         Ok(())
     }
 }
-
