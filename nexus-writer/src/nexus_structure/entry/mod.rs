@@ -28,7 +28,7 @@ use runlog::RunLog;
 use sample::Sample;
 use selog::SELog;
 use tracing::warn;
-use crate::run_engine::run_messages::{PushEv42EventData, PushEv44EventData};
+use crate::run_engine::run_messages::{PushEv44EventData};
 
 /// Names of datasets/attribute and subgroups in the Entry struct
 mod labels {
@@ -308,13 +308,6 @@ impl NexusMessageHandler<PushRunLog<'_>> for Entry {
 // Direct `PushEv44EventData` to the group(s) that need it
 impl NexusMessageHandler<PushEv44EventData<'_>> for Entry {
     fn handle_message(&mut self, message: &PushEv44EventData<'_>) -> NexusHDF5Result<()> {
-        self.detector_1.handle_message(message)
-    }
-}
-
-// Direct `PushEv42EventData` to the group(s) that need it
-impl NexusMessageHandler<PushEv42EventData<'_>> for Entry {
-    fn handle_message(&mut self, message: &PushEv42EventData<'_>) -> NexusHDF5Result<()> {
         self.detector_1.handle_message(message)
     }
 }

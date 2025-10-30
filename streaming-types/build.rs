@@ -20,8 +20,6 @@ fn main() {
         "ecs_se00_data.fbs",
         "ecs_al00_alarm.fbs",
         "ecs_ev44_events.fbs",
-        "ecs_ev42_events.fbs",
-        "is84_isis_events.fbs",
         "dtdb_adc_pulse_debug.fbs",
     ];
     let inputs: Vec<PathBuf> = inputs.iter().map(|i| schema_dir.join(i)).collect();

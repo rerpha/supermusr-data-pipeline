@@ -40,6 +40,4 @@ schema!(ecs_f144_logdata_generated);
 schema!(ecs_pl72_run_start_generated);
 schema!(ecs_se00_data_generated);
 schema!(ecs_ev44_events_generated);
-schema!(ecs_ev42_events_generated);
-schema!(is84_isis_events_generated);
 schema!(dtdb_adc_pulse_debug_generated);

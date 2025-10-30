@@ -12,7 +12,6 @@ use supermusr_streaming_types::{
     ecs_pl72_run_start_generated::RunStart, ecs_se00_data_generated::se00_SampleEnvironmentData,
     ecs_ev44_events_generated::Event44Message,
 };
-use supermusr_streaming_types::ecs_ev42_events_generated::EventMessage;
 
 /// As Sample Environment Logs can be delivered via both f144 or se00 type messages,
 /// a wrapper enum is required to handle them.
@@ -56,10 +55,6 @@ pub(crate) struct PushFrameEventList<'a> {
 
 pub(crate) struct PushEv44EventData<'a> {
     pub(crate) message: &'a Event44Message<'a>,
-}
-
-pub(crate) struct PushEv42EventData<'a> {
-    pub(crate) message: &'a EventMessage<'a>,
 }
 
 
@@ -153,6 +148,5 @@ pub(crate) trait HandlesAllNexusMessages:
     + for<'a> NexusMessageHandler<PushAlarm<'a>>
     + for<'a> NexusMessageHandler<SetEndTime<'a>>
     + for<'a> NexusMessageHandler<PushEv44EventData<'a>>
-    + for<'a> NexusMessageHandler<PushEv42EventData<'a>>
 {
 }

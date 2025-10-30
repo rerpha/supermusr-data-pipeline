@@ -15,7 +15,7 @@ use crate::{
 use hdf5::{Attribute, Dataset, Group};
 use supermusr_common::{Channel, Time};
 use supermusr_streaming_types::aev2_frame_assembled_event_v2_generated::FrameAssembledEventListMessage;
-use crate::run_engine::run_messages::{PushEv42EventData, PushEv44EventData};
+use crate::run_engine::run_messages::{PushEv44EventData};
 
 /// Field names for [EventData].
 mod labels {
@@ -283,10 +283,7 @@ impl NexusMessageHandler<PushEv44EventData<'_>> for EventData {
         //     .err_dataset(&self.event_time_zero)?;
 
         // self.event_time_zero.append_value(time_zero)?;
-
-        // Not in ev44
-        // self.period_number
-        //     .append_value(message.metadata().period_number())?;
+        
         self.event_frame_number
             .append_value(self.num_messages)?;
 
@@ -314,52 +311,3 @@ impl NexusMessageHandler<PushEv44EventData<'_>> for EventData {
     }
 }
 
-
-
-
-/// Appends data from the provided [EventData] message.
-impl NexusMessageHandler<PushEv42EventData<'_>> for EventData {
-    fn handle_message(
-        &mut self,
-        &PushEv42EventData { message }: &PushEv42EventData<'_>,
-    ) -> NexusHDF5Result<()> {
-        // Fields Indexed By Frame
-        self.event_index.append_value(self.num_events)?;
-
-        let frame_time = message.pulse_time().checked_add_signed(-self.offset.unwrap().timestamp());
-        if let Some(frame_time) = frame_time {
-            self.event_time_zero.append_value(frame_time)?;
-        }
-
-        match message.facility_specific_data_as_isisdata() {
-            Some(p) => {
-                self.period_number.append_value(p.period_number())?;
-                self.run_state.append_value(p.run_state().0)?;
-                self.proton_charge.append_value(p.proton_charge())?;
-            },
-            None => {}
-        }
-
-        self.event_frame_number
-            .append_value(self.num_messages)?;
-
-        let num_new_events = message.time_of_flight().map(|v| v.len()).unwrap_or(0);
-        let total_events = self.num_events + num_new_events;
-
-        let times = message.time_of_flight().map(|tofs| {
-            tofs.into_iter().map(|value| value as u64 * 1000).collect()
-        }).unwrap_or(vec![]);
-        self.event_time_offset.append_slice(&times)?;
-
-        if let Some(pixel_ids) = message.detector_id() {
-            self.event_id.append_slice(&pixel_ids.into_iter().collect::<Vec<_>>())?;
-        } else {
-            let pixel_ids = vec![0; self.num_events];
-            self.event_id.append_slice(&pixel_ids)?;
-        }
-
-        self.num_events = total_events;
-        self.num_messages += 1;
-        Ok(())
-    }
-}

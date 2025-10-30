@@ -29,9 +29,6 @@ use supermusr_streaming_types::{
     ecs_ev44_events_generated::{
         root_as_event_44_message, event_44_message_buffer_has_identifier,
     },
-    ecs_ev42_events_generated::{
-        root_as_event_message, event_message_buffer_has_identifier,
-    },
     flatbuffers::InvalidFlatbuffer,
 };
 use tracing::{instrument, warn, warn_span};
@@ -50,8 +47,6 @@ pub(crate) fn process_payload_on_frame_event_list_topic(
         push_frame_event_list(nexus_engine, message_kafka_timestamp_ms, payload);
     } else if event_44_message_buffer_has_identifier(payload) {
         push_ev44_event_data(nexus_engine, message_kafka_timestamp_ms, payload);
-    } else if event_message_buffer_has_identifier(payload) {
-        push_ev42_event_data(nexus_engine, message_kafka_timestamp_ms, payload);
     } else {
         warn!("Incorrect message identifier on frame event list topic");
     }
@@ -235,19 +230,6 @@ fn push_ev44_event_data(nexus_engine: &mut NexusEngine<EngineDependencies>,
                 warn!("Event Data ({data:?}) failed. Error: {e}");
             }
         }
-        Err(e) => report_parse_message_failure(e),
-    }
-}
-
-fn push_ev42_event_data(nexus_engine: &mut NexusEngine<EngineDependencies>,
-                        kafka_message_timestamp_ms: i64,
-                        payload: &[u8]) {
-    increment_message_received_counter(MessageKind::Event);
-    warn!("got EV42 event message");
-    match spanned_root_as(root_as_event_message, payload) {
-        Ok(data) => {if let Err(e) = nexus_engine.push_ev42_event_data(&data) {
-            warn!("Event Data ({data:?}) failed. Error: {e}");
-        }},
         Err(e) => report_parse_message_failure(e),
     }
 }

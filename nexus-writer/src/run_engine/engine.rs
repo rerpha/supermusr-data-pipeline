@@ -20,7 +20,6 @@ use supermusr_streaming_types::{
     ecs_ev44_events_generated::Event44Message
 };
 use tracing::{debug, info_span, warn};
-use supermusr_streaming_types::ecs_ev42_events_generated::EventMessage;
 
 /// Enables searching for a valid run based on a timestamp.
 trait FindValidRun<I: NexusFileInterface> {
@@ -244,15 +243,6 @@ impl<D: NexusEngineDependencies> NexusEngine<D> {
         // Ev44 don't have guaranteed wall clock timestamps so just use the current run
         if let Some(last_run) = self.run_cache.back_mut() {
             last_run.push_ev44_events(&self.nexus_settings, data)?;
-        }
-        // TODO do we want to error here if there isn't a run but we receive events?
-        Ok(())
-    }
-
-    pub(crate) fn push_ev42_event_data(&mut self, data:&EventMessage<'_>) -> NexusWriterResult<()> {
-        // Ev42 don't have guaranteed wall clock timestamps so just use the current run
-        if let Some(last_run) = self.run_cache.back_mut() {
-            last_run.push_ev42_events(&self.nexus_settings, data)?;
         }
         // TODO do we want to error here if there isn't a run but we receive events?
         Ok(())
