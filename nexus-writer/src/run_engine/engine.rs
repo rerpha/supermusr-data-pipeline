@@ -8,16 +8,16 @@ use crate::{
     run_engine::{NexusConfiguration, NexusDateTime, NexusSettings, Run},
 };
 use chrono::Duration;
-use glob::glob;
-#[cfg(test)]
-use std::collections::vec_deque;
-use std::{collections::VecDeque, ffi::OsStr};
-use supermusr_common::spanned::SpannedAggregator;
-use supermusr_streaming_types::{
+use digital_muon_common::spanned::SpannedAggregator;
+use digital_muon_streaming_types::{
     aev2_frame_assembled_event_v2_generated::FrameAssembledEventListMessage,
     ecs_6s4t_run_stop_generated::RunStop, ecs_al00_alarm_generated::Alarm,
     ecs_f144_logdata_generated::f144_LogData, ecs_pl72_run_start_generated::RunStart,
 };
+use glob::glob;
+#[cfg(test)]
+use std::collections::vec_deque;
+use std::{collections::VecDeque, ffi::OsStr};
 use tracing::{debug, info_span, warn};
 
 /// Enables searching for a valid run based on a timestamp.
@@ -371,7 +371,7 @@ mod test {
         run_engine::NexusConfiguration,
     };
     use chrono::{DateTime, Duration, Utc};
-    use supermusr_streaming_types::{
+    use digital_muon_streaming_types::{
         aev2_frame_assembled_event_v2_generated::{
             FrameAssembledEventListMessage, FrameAssembledEventListMessageArgs,
             finish_frame_assembled_event_list_message_buffer,

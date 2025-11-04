@@ -4,7 +4,7 @@
 mod event;
 pub(crate) use event::EventData;
 
-use supermusr_common::DigitizerId;
+use digital_muon_common::DigitizerId;
 
 pub(crate) type DigitiserData<T> = Vec<(DigitizerId, T)>;
 

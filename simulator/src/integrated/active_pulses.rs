@@ -1,6 +1,6 @@
 use crate::integrated::simulation_elements::pulses::PulseEvent;
+use digital_muon_common::Time;
 use std::{collections::VecDeque, slice::Iter};
-use supermusr_common::Time;
 
 pub(super) struct ActivePulses<'a> {
     active: VecDeque<&'a PulseEvent>,

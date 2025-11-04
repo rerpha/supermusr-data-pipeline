@@ -18,14 +18,8 @@ use crate::{
     runs::{RunCommandError, runlog, sample_environment},
 };
 use chrono::{DateTime, Utc};
-use rdkafka::{
-    Message,
-    producer::{FutureProducer, FutureRecord},
-    util::Timeout,
-};
-use std::{collections::VecDeque, num::TryFromIntError, time::Duration};
-use supermusr_common::{Channel, DigitizerId, tracer::FutureRecordTracerExt};
-use supermusr_streaming_types::{
+use digital_muon_common::{Channel, DigitizerId, tracer::FutureRecordTracerExt};
+use digital_muon_streaming_types::{
     FrameMetadata,
     ecs_6s4t_run_stop_generated::{RunStop, RunStopArgs, finish_run_stop_buffer},
     ecs_al00_alarm_generated::{Alarm, AlarmArgs, finish_alarm_buffer},
@@ -37,6 +31,12 @@ use supermusr_streaming_types::{
     },
     flatbuffers::FlatBufferBuilder,
 };
+use rdkafka::{
+    Message,
+    producer::{FutureProducer, FutureRecord},
+    util::Timeout,
+};
+use std::{collections::VecDeque, num::TryFromIntError, time::Duration};
 use thiserror::Error;
 use tracing::{Span, debug, debug_span, error};
 

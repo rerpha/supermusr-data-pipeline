@@ -12,9 +12,9 @@ use crate::{
         run_messages::{InitialiseNewNexusRun, PushFrameEventList},
     },
 };
+use digital_muon_common::{Channel, Time};
+use digital_muon_streaming_types::aev2_frame_assembled_event_v2_generated::FrameAssembledEventListMessage;
 use hdf5::{Attribute, Dataset, Group};
-use supermusr_common::{Channel, Time};
-use supermusr_streaming_types::aev2_frame_assembled_event_v2_generated::FrameAssembledEventListMessage;
 
 /// Field names for [EventData].
 mod labels {

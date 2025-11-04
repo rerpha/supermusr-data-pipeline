@@ -8,12 +8,12 @@ use crate::integrated::{
         pulses::PulseEvent,
     },
 };
-use rand::distr::weighted::WeightedIndex;
-use serde::Deserialize;
-use supermusr_common::{
+use digital_muon_common::{
     FrameNumber, Intensity,
     spanned::{SpanOnce, Spanned},
 };
+use rand::distr::weighted::WeightedIndex;
+use serde::Deserialize;
 use tracing::instrument;
 
 pub(crate) struct Trace {

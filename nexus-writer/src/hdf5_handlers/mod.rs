@@ -7,11 +7,11 @@ mod error;
 mod group;
 
 use crate::run_engine::NexusDateTime;
-pub(crate) use error::{ConvertResult, NexusHDF5Error, NexusHDF5Result};
-use hdf5::{Attribute, Dataset, Group, H5Type, types::TypeDescriptor};
-use supermusr_streaming_types::{
+use digital_muon_streaming_types::{
     ecs_f144_logdata_generated::f144_LogData, ecs_se00_data_generated::se00_SampleEnvironmentData,
 };
+pub(crate) use error::{ConvertResult, NexusHDF5Error, NexusHDF5Result};
+use hdf5::{Attribute, Dataset, Group, H5Type, types::TypeDescriptor};
 
 /// This is implemented by hdf5 types [Group] and [Dataset], both can have attributes set
 /// and this trait provides a common interface for them both.
@@ -381,7 +381,7 @@ mod tests {
     // Helper struct to create and tidy-up a temp hdf5 file
     struct OneTempFile(Option<hdf5::File>, PathBuf);
     // Suitably long temp file name, unlikely to clash with anything else
-    const TEMP_FILE_PREFIX: &str = "temp_supermusr_pipeline_nexus_writer_file";
+    const TEMP_FILE_PREFIX: &str = "temp_digital_muon_pipeline_nexus_writer_file";
 
     impl OneTempFile {
         //  We need a different file for each test, so they can run in parallel

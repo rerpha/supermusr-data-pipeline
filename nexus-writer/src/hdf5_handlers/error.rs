@@ -2,9 +2,9 @@
 //! can occur in the [crate::nexus_structure] module.
 use crate::error::{FlatBufferInvalidDataTypeContext, FlatBufferMissingError};
 use chrono::TimeDelta;
+use digital_muon_streaming_types::time_conversions::GpsTimeConversionError;
 use hdf5::{Attribute, Dataset, Group, types::TypeDescriptor};
 use std::{error::Error, num::TryFromIntError};
-use supermusr_streaming_types::time_conversions::GpsTimeConversionError;
 use thiserror::Error;
 
 /// Alias type to avoid writing out [Result<T, NexusHDF5Error>] everytime in other modules.
@@ -47,7 +47,7 @@ pub(crate) enum NexusHDF5Error {
     },
     /// An error converting the [GpsTime] type to a [NexusDateTime].
     ///
-    /// [GpsTime]: supermusr_streaming_types::frame_metadata_v2_generated::GpsTime
+    /// [GpsTime]: digital_muon_streaming_types::frame_metadata_v2_generated::GpsTime
     /// [NexusDateTime]: [super::NexusDateTime]
     #[error("Flatbuffer Timestamp Conversion Error {error} at {0}", hdf5_path.as_deref().unwrap_or(NO_HDF5_PATH_SET))]
     FlatBufferTimestampConversion {

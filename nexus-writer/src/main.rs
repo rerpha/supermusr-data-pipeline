@@ -23,6 +23,15 @@ mod run_engine;
 
 use chrono::Duration;
 use clap::Parser;
+use digital_muon_common::{
+    CommonKafkaOpts, init_tracer,
+    metrics::{
+        component_info_metric,
+        messages_received::{self, MessageKind},
+        names::{FAILURES, MESSAGES_PROCESSED, MESSAGES_RECEIVED},
+    },
+    tracer::{OptionalHeaderTracerExt, TracerEngine, TracerOptions},
+};
 use flush_to_archive::create_archive_flush_task;
 use kafka_topic_interface::{KafkaTopicInterface, TopicMode, TopicSubscriber, Topics};
 use message_handlers::{
@@ -40,15 +49,6 @@ use rdkafka::{
 };
 use run_engine::{NexusConfiguration, NexusEngine, NexusEngineDependencies, NexusSettings};
 use std::{fs::create_dir_all, marker::PhantomData, net::SocketAddr, path::PathBuf};
-use supermusr_common::{
-    CommonKafkaOpts, init_tracer,
-    metrics::{
-        component_info_metric,
-        messages_received::{self, MessageKind},
-        names::{FAILURES, MESSAGES_PROCESSED, MESSAGES_RECEIVED},
-    },
-    tracer::{OptionalHeaderTracerExt, TracerEngine, TracerOptions},
-};
 use tokio::{
     signal::unix::{SignalKind, signal},
     time,
@@ -57,7 +57,7 @@ use tracing::{debug, error, warn};
 
 /// [clap] derived struct to handle command line parameters.
 #[derive(Debug, Parser)]
-#[clap(author, version = supermusr_common::version!(), about)]
+#[clap(author, version = digital_muon_common::version!(), about)]
 struct Cli {
     #[clap(flatten)]
     common_kafka_options: CommonKafkaOpts,
@@ -164,7 +164,7 @@ async fn main() -> miette::Result<()> {
 
     let kafka_opts = args.common_kafka_options;
 
-    let consumer = supermusr_common::create_default_consumer(
+    let consumer = digital_muon_common::create_default_consumer(
         &kafka_opts.broker,
         &kafka_opts.username,
         &kafka_opts.password,

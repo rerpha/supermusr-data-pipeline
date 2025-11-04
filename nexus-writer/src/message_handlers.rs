@@ -4,8 +4,7 @@ use crate::{
     EngineDependencies,
     run_engine::{NexusEngine, run_messages::SampleEnvironmentLog},
 };
-use metrics::counter;
-use supermusr_common::{
+use digital_muon_common::{
     metrics::{
         failures::{self, FailureKind},
         messages_received::{self, MessageKind},
@@ -13,7 +12,7 @@ use supermusr_common::{
     },
     record_metadata_fields_to_span,
 };
-use supermusr_streaming_types::{
+use digital_muon_streaming_types::{
     FrameMetadata,
     aev2_frame_assembled_event_v2_generated::{
         frame_assembled_event_list_message_buffer_has_identifier,
@@ -28,6 +27,7 @@ use supermusr_streaming_types::{
     },
     flatbuffers::InvalidFlatbuffer,
 };
+use metrics::counter;
 use tracing::{instrument, warn, warn_span};
 
 /// Processes the message payload for a message on the `frame_event_list` topic

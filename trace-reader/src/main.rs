@@ -3,13 +3,13 @@ mod processing;
 
 use crate::{loader::load_trace_file, processing::dispatch_trace_file};
 use clap::Parser;
+use digital_muon_common::{CommonKafkaOpts, DigitizerId, FrameNumber};
 use rand::seq::IteratorRandom;
 use rdkafka::producer::FutureProducer;
 use std::path::PathBuf;
-use supermusr_common::{CommonKafkaOpts, DigitizerId, FrameNumber};
 
 #[derive(Debug, Parser)]
-#[clap(author, version = supermusr_common::version!(), about)]
+#[clap(author, version = digital_muon_common::version!(), about)]
 struct Cli {
     #[clap(flatten)]
     common_kafka_options: CommonKafkaOpts,
@@ -51,7 +51,7 @@ async fn main() {
 
     let kafka_opts = args.common_kafka_options;
 
-    let client_config = supermusr_common::generate_kafka_client_config(
+    let client_config = digital_muon_common::generate_kafka_client_config(
         &kafka_opts.broker,
         &kafka_opts.username,
         &kafka_opts.password,

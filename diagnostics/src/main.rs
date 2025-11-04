@@ -3,8 +3,8 @@ mod flatbuffer_decode;
 mod kafka_tail;
 
 use clap::{Args, Parser, Subcommand};
-use supermusr_common::CommonKafkaOpts;
-use supermusr_streaming_types::{
+use digital_muon_common::CommonKafkaOpts;
+use digital_muon_streaming_types::{
     dat2_digitizer_analog_trace_v2_generated::{
         digitizer_analog_trace_message_buffer_has_identifier,
         root_as_digitizer_analog_trace_message,
@@ -15,7 +15,7 @@ use supermusr_streaming_types::{
 use tracing::{info, warn};
 
 #[derive(Debug, Parser)]
-#[clap(author, version = supermusr_common::version!(), about)]
+#[clap(author, version = digital_muon_common::version!(), about)]
 struct Cli {
     #[clap(subcommand)]
     command: Commands,

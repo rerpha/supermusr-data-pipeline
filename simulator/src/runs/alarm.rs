@@ -1,6 +1,6 @@
 use clap::ValueEnum;
+use digital_muon_streaming_types::ecs_al00_alarm_generated::Severity;
 use serde::Deserialize;
-use supermusr_streaming_types::ecs_al00_alarm_generated::Severity;
 
 #[derive(Clone, Debug, Deserialize, ValueEnum)]
 #[serde(rename_all = "kebab-case")]

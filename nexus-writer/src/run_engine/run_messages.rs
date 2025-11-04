@@ -4,12 +4,12 @@
 //! the message to an instance of `T` via `T::handle_message(m)` where `m : M`.
 use super::{ChunkSizeSettings, NexusConfiguration, NexusDateTime, RunParameters};
 use crate::nexus::NexusMessageHandler;
-use std::ops::Deref;
-use supermusr_streaming_types::{
+use digital_muon_streaming_types::{
     aev2_frame_assembled_event_v2_generated::FrameAssembledEventListMessage,
     ecs_al00_alarm_generated::Alarm, ecs_f144_logdata_generated::f144_LogData,
     ecs_pl72_run_start_generated::RunStart, ecs_se00_data_generated::se00_SampleEnvironmentData,
 };
+use std::ops::Deref;
 
 /// As Sample Environment Logs can be delivered via both f144 or se00 type messages,
 /// a wrapper enum is required to handle them.

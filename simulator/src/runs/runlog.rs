@@ -1,7 +1,5 @@
 use clap::ValueEnum;
-use serde::Deserialize;
-use std::str::FromStr;
-use supermusr_streaming_types::{
+use digital_muon_streaming_types::{
     ecs_f144_logdata_generated::{
         ArrayByte, ArrayByteArgs, ArrayDouble, ArrayDoubleArgs, ArrayFloat, ArrayFloatArgs,
         ArrayInt, ArrayIntArgs, ArrayLong, ArrayLongArgs, ArrayShort, ArrayShortArgs, ArrayUByte,
@@ -12,6 +10,8 @@ use supermusr_streaming_types::{
     },
     flatbuffers::{FlatBufferBuilder, Push, UnionWIPOffset, Vector, WIPOffset},
 };
+use serde::Deserialize;
+use std::str::FromStr;
 
 use super::RunCommandError;
 
@@ -180,7 +180,7 @@ pub(crate) fn make_value(
 
 #[cfg(test)]
 mod tests {
-    use supermusr_streaming_types::{
+    use digital_muon_streaming_types::{
         ecs_f144_logdata_generated::{
             f144_LogData, f144_LogDataArgs, finish_f_144_log_data_buffer, root_as_f_144_log_data,
         },

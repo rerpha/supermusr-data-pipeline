@@ -1,5 +1,5 @@
 [package]
-name = "supermusr-streaming-types"
+name = "digital-muon-streaming-types"
 version.workspace = true
 license.workspace = true
 edition.workspace = true

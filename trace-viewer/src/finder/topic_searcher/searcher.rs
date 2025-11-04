@@ -5,6 +5,7 @@ use crate::{
     },
     structs::{BorrowedMessageError, FBMessage},
 };
+use digital_muon_streaming_types::time_conversions::GpsTimeConversionError;
 use rdkafka::{
     Offset, TopicPartitionList,
     consumer::{Consumer, StreamConsumer},
@@ -13,7 +14,6 @@ use rdkafka::{
     util::Timeout,
 };
 use std::time::Duration;
-use supermusr_streaming_types::time_conversions::GpsTimeConversionError;
 use thiserror::Error;
 use tokio::time::timeout;
 use tracing::{instrument, warn};

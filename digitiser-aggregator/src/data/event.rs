@@ -1,8 +1,8 @@
 //! Defines the event list type, used for both digitiser messages and frame messages.
 use super::{Accumulate, DigitiserData};
 use crate::frame::AggregatedFrame;
-use supermusr_common::{Channel, DigitizerId, Intensity, Time};
-use supermusr_streaming_types::{
+use digital_muon_common::{Channel, DigitizerId, Intensity, Time};
+use digital_muon_streaming_types::{
     aev2_frame_assembled_event_v2_generated::{
         FrameAssembledEventListMessage, FrameAssembledEventListMessageArgs,
         finish_frame_assembled_event_list_message_buffer,
@@ -159,7 +159,7 @@ impl From<AggregatedFrame<EventData>> for Vec<u8> {
 #[cfg(test)]
 mod test {
     use chrono::Utc;
-    use supermusr_streaming_types::FrameMetadata;
+    use digital_muon_streaming_types::FrameMetadata;
 
     use super::*;
 

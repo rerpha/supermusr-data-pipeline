@@ -12,7 +12,7 @@ pub(crate) async fn run(args: CommonOpts) -> miette::Result<()> {
 
     let kafka_opts = args.common_kafka_options;
 
-    let consumer: StreamConsumer = supermusr_common::generate_kafka_client_config(
+    let consumer: StreamConsumer = digital_muon_common::generate_kafka_client_config(
         &kafka_opts.broker,
         &kafka_opts.username,
         &kafka_opts.password,

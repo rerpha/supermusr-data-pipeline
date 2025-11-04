@@ -1,8 +1,7 @@
+use super::{Detector, EventData, Real};
 use crate::pulse_detection::{
     datatype::tracevalue::TraceArray, threshold_detector::ThresholdDuration,
 };
-
-use super::{Detector, EventData, Real};
 use std::fmt::Display;
 
 #[derive(Default, Debug, Clone, PartialEq)]
@@ -130,10 +129,9 @@ impl Detector for DifferentialThresholdDetector {
 
 #[cfg(test)]
 mod tests {
-    use supermusr_common::Intensity;
-
     use super::*;
     use crate::pulse_detection::{EventFilter, Real, WindowFilter, window::FiniteDifferences};
+    use digital_muon_common::Intensity;
 
     #[test]
     fn zero_data() {

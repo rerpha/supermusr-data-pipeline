@@ -1,11 +1,9 @@
 use crate::{channels::find_channel_events, parameters::DetectorSettings, pulse_detection::Real};
-use metrics::counter;
-use rayon::prelude::*;
-use supermusr_common::{
+use digital_muon_common::{
     Channel, EventData,
     spanned::{SpanWrapper, Spanned},
 };
-use supermusr_streaming_types::{
+use digital_muon_streaming_types::{
     dat2_digitizer_analog_trace_v2_generated::DigitizerAnalogTraceMessage,
     dev2_digitizer_event_v2_generated::{
         DigitizerEventListMessage, DigitizerEventListMessageArgs,
@@ -14,6 +12,8 @@ use supermusr_streaming_types::{
     flatbuffers::FlatBufferBuilder,
     frame_metadata_v2_generated::{FrameMetadataV2, FrameMetadataV2Args},
 };
+use metrics::counter;
+use rayon::prelude::*;
 use tracing::debug;
 
 #[tracing::instrument(skip_all, fields(num_total_pulses = tracing::field::Empty))]
@@ -108,8 +108,8 @@ mod tests {
 
     use super::*;
     use chrono::Utc;
-    use supermusr_common::Intensity;
-    use supermusr_streaming_types::{
+    use digital_muon_common::Intensity;
+    use digital_muon_streaming_types::{
         dat2_digitizer_analog_trace_v2_generated::{
             ChannelTrace, ChannelTraceArgs, DigitizerAnalogTraceMessage,
             DigitizerAnalogTraceMessageArgs, finish_digitizer_analog_trace_message_buffer,

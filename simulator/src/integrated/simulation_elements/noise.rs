@@ -1,9 +1,9 @@
 use super::{FloatExpression, Interval, utils::JsonFloatError};
 use chrono::Utc;
+use digital_muon_common::Time;
 use rand::SeedableRng;
 use rand_distr::{Distribution, Normal};
 use serde::Deserialize;
-use supermusr_common::Time;
 
 #[derive(Clone, Debug, Deserialize)]
 #[serde(rename_all = "kebab-case")]

@@ -4,14 +4,14 @@ use crate::{
         DigitiserEventList, DigitiserMetadata, DigitiserTrace, FromMessage,
     },
 };
-use std::collections::{
-    BTreeMap,
-    btree_map::{self, Entry},
-};
-use supermusr_streaming_types::{
+use digital_muon_streaming_types::{
     dat2_digitizer_analog_trace_v2_generated::DigitizerAnalogTraceMessage,
     dev2_digitizer_event_v2_generated::DigitizerEventListMessage,
     time_conversions::GpsTimeConversionError,
+};
+use std::collections::{
+    BTreeMap,
+    btree_map::{self, Entry},
 };
 use tracing::{error, info};
 

@@ -7,11 +7,11 @@ use crate::{
     },
     run_engine::NexusDateTime,
 };
+use digital_muon_streaming_types::ecs_f144_logdata_generated::{Value, f144_LogData};
 use hdf5::{
     Dataset,
     types::{FloatSize, IntSize, TypeDescriptor},
 };
-use supermusr_streaming_types::ecs_f144_logdata_generated::{Value, f144_LogData};
 
 fn var_len_array_type_descr(type_descriptor: TypeDescriptor) -> TypeDescriptor {
     TypeDescriptor::VarLenArray(Box::new(type_descriptor))

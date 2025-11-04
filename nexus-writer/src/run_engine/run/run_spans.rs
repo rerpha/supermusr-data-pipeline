@@ -6,11 +6,11 @@
 //! representing flatbuffer messages which are relevant to the run.
 use super::Run;
 use crate::nexus::NexusFileInterface;
-use supermusr_common::{
+use digital_muon_common::{
     record_metadata_fields_to_span,
     spanned::{SpanOnce, SpanOnceError, Spanned, SpannedAggregator, SpannedMut},
 };
-use supermusr_streaming_types::{
+use digital_muon_streaming_types::{
     FrameMetadata, aev2_frame_assembled_event_v2_generated::FrameAssembledEventListMessage,
 };
 use tracing::{Span, info_span, warn};
