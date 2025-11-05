@@ -49,7 +49,7 @@ mod labels {
     pub(super) const PERIODS: &str = "periods";
     pub(super) const SELOGS: &str = "selog";
     pub(super) const SAMPLE: &str = "sample";
-    pub(super) const DETECTOR_1: &str = "detector_1";
+    pub(super) const DETECTOR_1: &str = "detector_1_events";
 }
 
 // Values of Nexus Constant
@@ -162,7 +162,7 @@ impl NexusSchematic for Entry {
             _sample: Sample::build_new_group(group, labels::SAMPLE, settings)?,
             detector_1: EventData::build_new_group(
                 group,
-                "detector_1",
+                labels::DETECTOR_1,
                 &(settings.event, settings.frame),
             )?,
         })
