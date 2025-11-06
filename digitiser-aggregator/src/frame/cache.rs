@@ -2,9 +2,11 @@
 use super::{AggregatedFrame, RejectMessageError, partial::PartialFrame};
 use crate::data::{Accumulate, DigitiserData};
 use chrono::{DateTime, Utc};
+use digital_muon_common::{
+    DigitizerId, record_metadata_fields_to_span, spanned::SpannedAggregator,
+};
+use digital_muon_streaming_types::FrameMetadata;
 use std::{collections::VecDeque, fmt::Debug, time::Duration};
-use supermusr_common::{DigitizerId, record_metadata_fields_to_span, spanned::SpannedAggregator};
-use supermusr_streaming_types::FrameMetadata;
 use tracing::{info_span, warn};
 
 /// Contains all the partial frames as well as handling the frame lifetime and completeness.

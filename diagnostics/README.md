@@ -44,7 +44,7 @@ To run using Podman, execute the following command, substituting the broker, top
 
 ```shell
 podman run --rm -it \
-    ghcr.io/stfc-icd-research-and-design/supermusr-diagnostics:main \
+    ghcr.io/isisneutronmuon/supermusr-diagnostics:main \
     daq-trace
     --broker 130.246.55.29:9092 \
     --topic daq-traces-in  \

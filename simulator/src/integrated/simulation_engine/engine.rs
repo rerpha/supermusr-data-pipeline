@@ -17,10 +17,10 @@ use crate::integrated::{
     },
 };
 use chrono::{DateTime, TimeDelta, Utc};
+use digital_muon_common::{Channel, DigitizerId, FrameNumber};
+use digital_muon_streaming_types::{FrameMetadata, flatbuffers::FlatBufferBuilder};
 use rdkafka::producer::FutureProducer;
 use std::{collections::VecDeque, thread::sleep, time::Duration};
-use supermusr_common::{Channel, DigitizerId, FrameNumber};
-use supermusr_streaming_types::{FrameMetadata, flatbuffers::FlatBufferBuilder};
 use thiserror::Error;
 use tokio::task::JoinSet;
 use tracing::{debug, info, instrument};

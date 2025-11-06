@@ -12,8 +12,8 @@ use crate::{
         window::{Baseline, FiniteDifferences, SmoothingWindow, WindowFilter},
     },
 };
-use supermusr_common::{Intensity, Time};
-use supermusr_streaming_types::dat2_digitizer_analog_trace_v2_generated::ChannelTrace;
+use digital_muon_common::{Intensity, Time};
+use digital_muon_streaming_types::dat2_digitizer_analog_trace_v2_generated::ChannelTrace;
 
 #[tracing::instrument(skip_all, fields(channel = trace.channel(), num_pulses))]
 pub(crate) fn find_channel_events(

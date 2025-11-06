@@ -1,9 +1,9 @@
 //! Top-level error handling.
 use crate::{hdf5_handlers::NexusHDF5Error, run_engine::NexusDateTime};
+use digital_muon_streaming_types::time_conversions::GpsTimeConversionError;
 use glob::{GlobError, PatternError};
 use rdkafka::error::KafkaError;
 use std::{num::TryFromIntError, path::PathBuf};
-use supermusr_streaming_types::time_conversions::GpsTimeConversionError;
 use thiserror::Error;
 
 pub(crate) type NexusWriterResult<T> = Result<T, NexusWriterError>;

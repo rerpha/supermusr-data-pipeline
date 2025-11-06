@@ -1,6 +1,6 @@
 use super::Real;
+use digital_muon_common::Intensity;
 use std::fmt::{Debug, Display};
-use supermusr_common::Intensity;
 
 pub(crate) mod eventdata;
 pub(crate) mod eventpoint;

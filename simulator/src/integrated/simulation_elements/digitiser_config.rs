@@ -5,8 +5,8 @@ use crate::integrated::{
     },
     simulation_engine::engine::SimulationEngineDigitiser,
 };
+use digital_muon_common::{Channel, DigitizerId};
 use serde::Deserialize;
-use supermusr_common::{Channel, DigitizerId};
 use tracing::instrument;
 
 #[derive(Debug, Deserialize)]

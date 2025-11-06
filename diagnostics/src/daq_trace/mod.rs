@@ -11,6 +11,11 @@ use crossterm::terminal::{
     EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode,
 };
 use data::{DigitiserData, DigitiserDataHashMap};
+use digital_muon_common::Intensity;
+use digital_muon_streaming_types::dat2_digitizer_analog_trace_v2_generated::{
+    DigitizerAnalogTraceMessage, digitizer_analog_trace_message_buffer_has_identifier,
+    root_as_digitizer_analog_trace_message,
+};
 use miette::IntoDiagnostic;
 use ratatui::{Terminal, prelude::CrosstermBackend};
 use rdkafka::{
@@ -23,11 +28,6 @@ use std::{
     sync::{Arc, Mutex, mpsc},
     thread,
     time::{Duration, Instant},
-};
-use supermusr_common::Intensity;
-use supermusr_streaming_types::dat2_digitizer_analog_trace_v2_generated::{
-    DigitizerAnalogTraceMessage, digitizer_analog_trace_message_buffer_has_identifier,
-    root_as_digitizer_analog_trace_message,
 };
 use tokio::task;
 use tokio::time::sleep;
@@ -42,7 +42,7 @@ enum Event<I> {
 pub(crate) async fn run(args: DaqTraceOpts) -> miette::Result<()> {
     let kafka_opts = args.common.common_kafka_options;
 
-    let consumer: StreamConsumer = supermusr_common::generate_kafka_client_config(
+    let consumer: StreamConsumer = digital_muon_common::generate_kafka_client_config(
         &kafka_opts.broker,
         &kafka_opts.username,
         &kafka_opts.password,

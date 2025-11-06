@@ -38,18 +38,7 @@ mod frame;
 
 use crate::data::EventData;
 use clap::Parser;
-use frame::{AggregatedFrame, FrameCache};
-use metrics::counter;
-use metrics_exporter_prometheus::PrometheusBuilder;
-use miette::{Context, IntoDiagnostic};
-use rdkafka::{
-    consumer::{CommitMode, Consumer},
-    message::{BorrowedMessage, Message},
-    producer::{FutureProducer, FutureRecord},
-    util::Timeout,
-};
-use std::{fmt::Debug, net::SocketAddr, time::Duration};
-use supermusr_common::{
+use digital_muon_common::{
     CommonKafkaOpts, DigitizerId, init_tracer,
     metrics::{
         component_info_metric,
@@ -61,13 +50,24 @@ use supermusr_common::{
     spanned::Spanned,
     tracer::{FutureRecordTracerExt, OptionalHeaderTracerExt, TracerEngine, TracerOptions},
 };
-use supermusr_streaming_types::{
+use digital_muon_streaming_types::{
     dev2_digitizer_event_v2_generated::{
         DigitizerEventListMessage, digitizer_event_list_message_buffer_has_identifier,
         root_as_digitizer_event_list_message,
     },
     flatbuffers::InvalidFlatbuffer,
 };
+use frame::{AggregatedFrame, FrameCache};
+use metrics::counter;
+use metrics_exporter_prometheus::PrometheusBuilder;
+use miette::{Context, IntoDiagnostic};
+use rdkafka::{
+    consumer::{CommitMode, Consumer},
+    message::{BorrowedMessage, Message},
+    producer::{FutureProducer, FutureRecord},
+    util::Timeout,
+};
+use std::{fmt::Debug, net::SocketAddr, time::Duration};
 use tokio::{
     select,
     signal::unix::{Signal, SignalKind, signal},
@@ -84,7 +84,7 @@ type SendAggregatedFrameError = SendError<AggregatedFrame<EventData>>;
 
 /// [clap] derived struct to handle command line parameters.
 #[derive(Debug, Parser)]
-#[clap(author, version = supermusr_common::version!(), about)]
+#[clap(author, version = digital_muon_common::version!(), about)]
 struct Cli {
     #[clap(flatten)]
     common_kafka_options: CommonKafkaOpts,
@@ -147,7 +147,7 @@ async fn main() -> miette::Result<()> {
 
     let kafka_opts = args.common_kafka_options;
 
-    let consumer = supermusr_common::create_default_consumer(
+    let consumer = digital_muon_common::create_default_consumer(
         &kafka_opts.broker,
         &kafka_opts.username,
         &kafka_opts.password,
@@ -156,7 +156,7 @@ async fn main() -> miette::Result<()> {
     )
     .into_diagnostic()?;
 
-    let producer: FutureProducer = supermusr_common::generate_kafka_client_config(
+    let producer: FutureProducer = digital_muon_common::generate_kafka_client_config(
         &kafka_opts.broker,
         &kafka_opts.username,
         &kafka_opts.password,

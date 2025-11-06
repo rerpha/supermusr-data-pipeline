@@ -3,13 +3,8 @@ use super::{
     sample_environment,
 };
 use chrono::{DateTime, Utc};
-use rdkafka::{
-    producer::{FutureProducer, FutureRecord},
-    util::Timeout,
-};
-use std::time::Duration;
-use supermusr_common::tracer::FutureRecordTracerExt;
-use supermusr_streaming_types::{
+use digital_muon_common::tracer::FutureRecordTracerExt;
+use digital_muon_streaming_types::{
     ecs_6s4t_run_stop_generated::{RunStop, RunStopArgs, finish_run_stop_buffer},
     ecs_al00_alarm_generated::{Alarm, AlarmArgs, finish_alarm_buffer},
     ecs_f144_logdata_generated::{f144_LogData, f144_LogDataArgs, finish_f_144_log_data_buffer},
@@ -20,6 +15,11 @@ use supermusr_streaming_types::{
     },
     flatbuffers::FlatBufferBuilder,
 };
+use rdkafka::{
+    producer::{FutureProducer, FutureRecord},
+    util::Timeout,
+};
+use std::time::Duration;
 use tracing::{debug, error};
 
 #[tracing::instrument(skip_all)]

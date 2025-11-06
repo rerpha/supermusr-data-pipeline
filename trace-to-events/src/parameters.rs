@@ -1,6 +1,6 @@
 use crate::pulse_detection::Real;
 use clap::{Parser, Subcommand, ValueEnum};
-use supermusr_common::Intensity;
+use digital_muon_common::Intensity;
 
 #[derive(Debug)]
 pub(crate) struct DetectorSettings<'a> {

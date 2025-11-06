@@ -1,7 +1,5 @@
 use clap::ValueEnum;
-use serde::Deserialize;
-use std::str::FromStr;
-use supermusr_streaming_types::{
+use digital_muon_streaming_types::{
     ecs_se00_data_generated::{
         DoubleArray, DoubleArrayArgs, FloatArray, FloatArrayArgs, Int8Array, Int8ArrayArgs,
         Int16Array, Int16ArrayArgs, Int32Array, Int32ArrayArgs, Int64Array, Int64ArrayArgs,
@@ -10,6 +8,8 @@ use supermusr_streaming_types::{
     },
     flatbuffers::{FlatBufferBuilder, Push, UnionWIPOffset, Vector, WIPOffset},
 };
+use serde::Deserialize;
+use std::str::FromStr;
 
 #[derive(Clone, Debug, Deserialize, ValueEnum)]
 #[serde(rename_all = "kebab-case")]
@@ -136,7 +136,7 @@ pub(crate) fn make_value(
 
 #[cfg(test)]
 mod tests {
-    use supermusr_streaming_types::{
+    use digital_muon_streaming_types::{
         ecs_se00_data_generated::{
             finish_se_00_sample_environment_data_buffer, root_as_se_00_sample_environment_data,
             se00_SampleEnvironmentData, se00_SampleEnvironmentDataArgs,

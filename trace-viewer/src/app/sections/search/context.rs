@@ -27,10 +27,17 @@ impl SearchLevelContext {
         let default_timestamp = default_data.timestamp.unwrap_or_else(Utc::now);
         let default_date = default_timestamp.date_naive();
         let default_time = default_timestamp.time();
+        let search_by = if default_data.channels.is_some() {
+            SearchBy::ByChannels
+        } else if default_data.digitiser_ids.is_some() {
+            SearchBy::ByDigitiserIds
+        } else {
+            SearchBy::All
+        };
 
         Self {
-            search_mode: RwSignal::new(SearchMode::Timestamp),
-            search_by: RwSignal::new(SearchBy::ByChannels),
+            search_mode: RwSignal::new(SearchMode::default()),
+            search_by: RwSignal::new(search_by),
             channels: RwSignal::new(default_data.channels.clone().unwrap_or_default()),
             digitiser_ids: RwSignal::new(default_data.digitiser_ids.clone().unwrap_or_default()),
             date: RwSignal::new(default_date),

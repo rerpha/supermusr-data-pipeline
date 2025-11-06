@@ -1,11 +1,11 @@
 //! Defines the struct for a frame which is awaiting data from digitiser messages.
 use crate::data::DigitiserData;
-use std::time::Duration;
-use supermusr_common::{
+use digital_muon_common::{
     DigitizerId,
     spanned::{SpanOnce, SpanOnceError, Spanned, SpannedAggregator, SpannedMut},
 };
-use supermusr_streaming_types::FrameMetadata;
+use digital_muon_streaming_types::FrameMetadata;
+use std::time::Duration;
 use tokio::time::Instant;
 use tracing::{Span, info_span};
 
@@ -13,7 +13,7 @@ use tracing::{Span, info_span};
 pub(crate) struct PartialFrame<D> {
     /// Used by the implementation of [SpannedAggregator].
     ///
-    /// [SpannedAggregator]: supermusr_common::spanned::SpannedAggregator
+    /// [SpannedAggregator]: digital_muon_common::spanned::SpannedAggregator
     span: SpanOnce,
     /// IS `true` if and only if all expected digitiser messages have been collected.
     complete: bool,

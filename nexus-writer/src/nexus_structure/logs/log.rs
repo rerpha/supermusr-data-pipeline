@@ -15,9 +15,9 @@ use crate::{
         },
     },
 };
+use digital_muon_common::DigitizerId;
 use hdf5::{Dataset, Group, types::TypeDescriptor};
 use std::ops::Deref;
-use supermusr_common::DigitizerId;
 
 /// Wrapper for all settings needed to construct the [Log] group structure.
 pub(crate) struct LogSettings {

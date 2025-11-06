@@ -7,11 +7,13 @@ use crate::{
     },
     run_engine::{NexusDateTime, run_messages::SampleEnvironmentLog},
 };
+use digital_muon_streaming_types::ecs_se00_data_generated::{
+    ValueUnion, se00_SampleEnvironmentData,
+};
 use hdf5::{
     Dataset,
     types::{FloatSize, IntSize, TypeDescriptor},
 };
-use supermusr_streaming_types::ecs_se00_data_generated::{ValueUnion, se00_SampleEnvironmentData};
 use tracing::{trace, warn};
 
 fn get_se00_len(data: &se00_SampleEnvironmentData<'_>) -> NexusHDF5Result<usize> {

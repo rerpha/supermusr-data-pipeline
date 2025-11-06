@@ -42,7 +42,7 @@ impl SessionEngine {
     }
 
     pub fn create_new_search(&mut self, target: SearchTarget) -> Result<String, SessionError> {
-        let consumer = supermusr_common::create_default_consumer(
+        let consumer = digital_muon_common::create_default_consumer(
             &self.settings.broker,
             &self.settings.username,
             &self.settings.password,
@@ -109,7 +109,7 @@ impl SessionEngine {
         debug!("Beginning Broker Poll");
         trace!("{:?}", self.settings);
 
-        let consumer = supermusr_common::create_default_consumer(
+        let consumer = digital_muon_common::create_default_consumer(
             &self.settings.broker,
             &self.settings.username,
             &self.settings.password,

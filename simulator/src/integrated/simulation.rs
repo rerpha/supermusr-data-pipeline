@@ -9,15 +9,15 @@ use crate::integrated::{
     simulation_engine::actions::Action,
 };
 use chrono::Utc;
+use digital_muon_common::{
+    FrameNumber, Time,
+    spanned::{SpanWrapper, Spanned},
+};
 use rand::SeedableRng;
 use rand::distr::weighted::WeightedIndex;
 use rand_distr::Distribution;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use serde::Deserialize;
-use supermusr_common::{
-    FrameNumber, Time,
-    spanned::{SpanWrapper, Spanned},
-};
 use thiserror::Error;
 use tracing::instrument;
 

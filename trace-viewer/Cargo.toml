@@ -25,8 +25,8 @@ plotly = { workspace = true, optional = true }
 rdkafka = { workspace = true, optional = true }
 serde = { workspace = true, optional = false }
 strum = { workspace = true, optional = false }
-supermusr-common = { workspace = true, optional = true }
-supermusr-streaming-types = { workspace = true, optional = false }
+digital-muon-common = { workspace = true, optional = true }
+digital-muon-streaming-types = { workspace = true, optional = false }
 thiserror = { workspace = true, optional = false }
 tokio = { workspace = true, optional = true }
 tracing = { workspace = true, optional = false }
@@ -53,7 +53,7 @@ ssr = [
   "dep:rdkafka",
   "dep:plotly",
   "dep:clap",
-  "dep:supermusr-common",
+  "dep:digital-muon-common",
 ]
 
 [package.metadata.leptos]

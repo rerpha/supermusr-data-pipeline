@@ -12,16 +12,16 @@ use super::{
 };
 use crate::{error::NexusWriterResult, hdf5_handlers::NexusHDF5Result, nexus::NexusFileInterface};
 use chrono::{Duration, Utc};
-pub(crate) use run_parameters::{NexusConfiguration, RunParameters, RunStopParameters};
-pub(crate) use run_spans::RunSpan;
-use std::{io, path::Path};
-use supermusr_common::spanned::SpanOnce;
-use supermusr_streaming_types::{
+use digital_muon_common::spanned::SpanOnce;
+use digital_muon_streaming_types::{
     aev2_frame_assembled_event_v2_generated::FrameAssembledEventListMessage,
     ecs_6s4t_run_stop_generated::RunStop, ecs_al00_alarm_generated::Alarm,
     ecs_f144_logdata_generated::f144_LogData, ecs_pl72_run_start_generated::RunStart,
+    ecs_ev44_events_generated::Event44Message
 };
-use supermusr_streaming_types::ecs_ev44_events_generated::Event44Message;
+pub(crate) use run_parameters::{NexusConfiguration, RunParameters, RunStopParameters};
+pub(crate) use run_spans::RunSpan;
+use std::{io, path::Path};
 use tracing::{error, info, info_span};
 use crate::run_engine::run_messages::{PushEv44EventData};
 
@@ -33,7 +33,7 @@ use crate::run_engine::run_messages::{PushEv44EventData};
 pub(crate) struct Run<I: NexusFileInterface> {
     /// Used by the implementation of [SpannedAggregator].
     ///
-    /// [SpannedAggregator]: supermusr_common::spanned::SpannedAggregator
+    /// [SpannedAggregator]: digital_muon_common::spanned::SpannedAggregator
     span: SpanOnce,
     /// Contains parameters of the run as specified by the `RunStart` message.
     parameters: RunParameters,

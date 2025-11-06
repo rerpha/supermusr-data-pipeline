@@ -1,6 +1,6 @@
 use super::{FloatRandomDistribution, utils::JsonFloatError};
+use digital_muon_common::{Intensity, Time};
 use serde::Deserialize;
-use supermusr_common::{Intensity, Time};
 
 #[derive(Debug, Deserialize, Clone)]
 #[serde(rename_all = "kebab-case", tag = "pulse-type")]

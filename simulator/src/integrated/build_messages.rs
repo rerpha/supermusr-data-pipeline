@@ -5,9 +5,8 @@ use crate::integrated::{
         cache::{CacheError, SimulationEngineCache},
     },
 };
-use std::collections::VecDeque;
-use supermusr_common::{Channel, DigitizerId, Intensity, Time, spanned::Spanned};
-use supermusr_streaming_types::{
+use digital_muon_common::{Channel, DigitizerId, Intensity, Time, spanned::Spanned};
+use digital_muon_streaming_types::{
     FrameMetadata,
     aev2_frame_assembled_event_v2_generated::{
         FrameAssembledEventListMessage, FrameAssembledEventListMessageArgs,
@@ -24,6 +23,7 @@ use supermusr_streaming_types::{
     flatbuffers::FlatBufferBuilder,
     frame_metadata_v2_generated::{FrameMetadataV2, FrameMetadataV2Args, GpsTime},
 };
+use std::collections::VecDeque;
 use thiserror::Error;
 use tracing::info_span;
 

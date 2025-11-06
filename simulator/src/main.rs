@@ -3,6 +3,22 @@ pub(crate) mod runs;
 
 use chrono::Utc;
 use clap::{Parser, Subcommand};
+use digital_muon_common::{
+    Channel, CommonKafkaOpts, Intensity, Time, init_tracer,
+    tracer::{FutureRecordTracerExt, TracerEngine, TracerOptions},
+};
+use digital_muon_streaming_types::{
+    dat2_digitizer_analog_trace_v2_generated::{
+        ChannelTrace, ChannelTraceArgs, DigitizerAnalogTraceMessage,
+        DigitizerAnalogTraceMessageArgs, finish_digitizer_analog_trace_message_buffer,
+    },
+    dev2_digitizer_event_v2_generated::{
+        DigitizerEventListMessage, DigitizerEventListMessageArgs,
+        finish_digitizer_event_list_message_buffer,
+    },
+    flatbuffers::FlatBufferBuilder,
+    frame_metadata_v2_generated::{FrameMetadataV2, FrameMetadataV2Args, GpsTime},
+};
 use integrated::run_configured_simulation;
 use miette::IntoDiagnostic;
 use rdkafka::{
@@ -20,27 +36,11 @@ use std::{
     path::PathBuf,
     time::{Duration, SystemTime},
 };
-use supermusr_common::{
-    Channel, CommonKafkaOpts, Intensity, Time, init_tracer,
-    tracer::{FutureRecordTracerExt, TracerEngine, TracerOptions},
-};
-use supermusr_streaming_types::{
-    dat2_digitizer_analog_trace_v2_generated::{
-        ChannelTrace, ChannelTraceArgs, DigitizerAnalogTraceMessage,
-        DigitizerAnalogTraceMessageArgs, finish_digitizer_analog_trace_message_buffer,
-    },
-    dev2_digitizer_event_v2_generated::{
-        DigitizerEventListMessage, DigitizerEventListMessageArgs,
-        finish_digitizer_event_list_message_buffer,
-    },
-    flatbuffers::FlatBufferBuilder,
-    frame_metadata_v2_generated::{FrameMetadataV2, FrameMetadataV2Args, GpsTime},
-};
 use tokio::time;
 use tracing::{debug, error, info, warn};
 
 #[derive(Clone, Parser)]
-#[clap(author, version = supermusr_common::version!(), about)]
+#[clap(author, version = digital_muon_common::version!(), about)]
 struct Cli {
     /// Kafka options common to all tools.
     #[clap(flatten)]
@@ -179,7 +179,7 @@ async fn main() -> miette::Result<()> {
 
     let kafka_opts = &cli.common_kafka_options;
 
-    let client_config = supermusr_common::generate_kafka_client_config(
+    let client_config = digital_muon_common::generate_kafka_client_config(
         &kafka_opts.broker,
         &kafka_opts.username,
         &kafka_opts.password,

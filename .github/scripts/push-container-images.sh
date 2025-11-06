@@ -8,7 +8,7 @@ sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 local_cr="containers-storage:localhost/$COMPONENT:latest"
 
 # The container registry to push images to
-remote_cr="docker://ghcr.io/stfc-icd-research-and-design/supermusr-$COMPONENT"
+remote_cr="docker://ghcr.io/isisneutronmuon/digital-muon-$COMPONENT"
 remote_cr_creds="$GITHUB_REPOSITORY_OWNER:$GITHUB_TOKEN"
 
 # Push image using the Git ref name as the image tag (i.e. "main" or the tag name)

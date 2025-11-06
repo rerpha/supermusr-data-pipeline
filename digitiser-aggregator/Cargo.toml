@@ -12,8 +12,8 @@ metrics.workspace = true
 metrics-exporter-prometheus.workspace = true
 miette = { workspace = true, features = ["fancy"] }
 rdkafka.workspace = true
-supermusr-common.workspace = true
-supermusr-streaming-types.workspace = true
+digital-muon-common.workspace = true
+digital-muon-streaming-types.workspace = true
 tokio.workspace = true
 tracing.workspace = true
 

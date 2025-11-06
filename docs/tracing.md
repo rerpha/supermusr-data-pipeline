@@ -96,7 +96,7 @@ To work around this the following pattern should be employed.
 
 ```rust
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
-use supermusr_common::spanned::{SpanWrapper, Spanned},
+use digital_muon_common::spanned::{SpanWrapper, Spanned},
 use tracing::info_span;
 
 let vec : Vec<T> = todo!();

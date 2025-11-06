@@ -3,14 +3,8 @@
 
 use super::loader::{TraceFile, TraceFileEvent};
 use chrono::Utc;
-use miette::IntoDiagnostic;
-use rdkafka::{
-    producer::{FutureProducer, FutureRecord},
-    util::Timeout,
-};
-use std::time::Duration;
-use supermusr_common::{Channel, DigitizerId, FrameNumber, Intensity};
-use supermusr_streaming_types::{
+use digital_muon_common::{Channel, DigitizerId, FrameNumber, Intensity};
+use digital_muon_streaming_types::{
     dat2_digitizer_analog_trace_v2_generated::{
         ChannelTrace, ChannelTraceArgs, DigitizerAnalogTraceMessage,
         DigitizerAnalogTraceMessageArgs, finish_digitizer_analog_trace_message_buffer,
@@ -18,6 +12,12 @@ use supermusr_streaming_types::{
     flatbuffers::{FlatBufferBuilder, WIPOffset},
     frame_metadata_v2_generated::{FrameMetadataV2, FrameMetadataV2Args, GpsTime},
 };
+use miette::IntoDiagnostic;
+use rdkafka::{
+    producer::{FutureProducer, FutureRecord},
+    util::Timeout,
+};
+use std::time::Duration;
 use tracing::{debug, error};
 
 /// Reads the contents of trace_file and dispatches messages to the given Kafka topic.

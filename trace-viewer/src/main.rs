@@ -7,7 +7,7 @@ cfg_if! {
     if #[cfg(feature = "ssr")] {
         use clap::Parser;
         use std::net::SocketAddr;
-        use supermusr_common::CommonKafkaOpts;
+        use digital_muon_common::CommonKafkaOpts;
         use trace_viewer::{structs::{ClientSideData, DefaultData, ServerSideData, Topics}, sessions::{SessionEngineSettings}, shell};
         use tracing::info;
         use tracing_subscriber::{EnvFilter, Layer, layer::SubscriberExt};

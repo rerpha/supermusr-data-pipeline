@@ -29,7 +29,7 @@ macro_rules! init_tracer {
 
 /// Should be called to populate the metadata fields of a given span
 /// # Arguments
-/// - metadata: supermusr_streaming_types::frame_metadata::FrameMetadata
+/// - metadata: digital_muon_streaming_types::frame_metadata::FrameMetadata
 /// - span: Span
 ///
 /// # Prerequisites

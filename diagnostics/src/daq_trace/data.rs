@@ -1,5 +1,5 @@
 use chrono::{DateTime, Utc};
-use supermusr_common::{Channel, DigitizerId, Intensity};
+use digital_muon_common::{Channel, DigitizerId, Intensity};
 
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};

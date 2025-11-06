@@ -5,8 +5,8 @@ use crate::{
     hdf5_handlers::{ConvertResult, DatasetExt, NexusHDF5Error, NexusHDF5Result},
     run_engine::NexusDateTime,
 };
+use digital_muon_streaming_types::ecs_al00_alarm_generated::Alarm;
 use hdf5::{Dataset, types::VarLenUnicode};
-use supermusr_streaming_types::ecs_al00_alarm_generated::Alarm;
 
 impl<'a> AlarmMessage<'a> for Alarm<'a> {
     fn get_name(&self) -> NexusHDF5Result<String> {
