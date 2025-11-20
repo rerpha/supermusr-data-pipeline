@@ -31,8 +31,6 @@ mod labels {
     pub(super) const FRAME_COMPLETE: &str = "frame_complete";
     pub(super) const RUNNING: &str = "running";
     pub(super) const VETO_FLAGS: &str = "veto_flags";
-    pub(super) const RUN_STATE: &str = "run_state";
-    pub(super) const PROTON_CHARGE: &str = "proton_charge";
 }
 
 pub(crate) struct EventData {
@@ -65,10 +63,6 @@ pub(crate) struct EventData {
     running: Dataset,
     /// Vector specifying the veto_flags of each each frame.
     veto_flags: Dataset,
-    /// run state of the instrument
-    run_state: Dataset,
-    ///Proton charge
-    proton_charge: Dataset,
 }
 
 impl NexusSchematic for EventData {
@@ -80,8 +74,8 @@ impl NexusSchematic for EventData {
         (event_chunk_size, frame_chunk_size): &Self::Settings,
     ) -> NexusHDF5Result<Self> {
         let event_time_zero = group
-            .create_resizable_empty_dataset::<u64>(labels::EVENT_TIME_ZERO, *frame_chunk_size)?
-            .with_units(NexusUnits::Seconds)?;  // TODO: refactor this
+            .create_resizable_empty_dataset::<f32>(labels::EVENT_TIME_ZERO, *frame_chunk_size)?
+            .with_units(NexusUnits::Seconds)?;
         let event_time_zero_offset =
             event_time_zero.add_string_attribute(labels::EVENT_TIME_ZERO_OFFSET)?;
 
@@ -93,12 +87,13 @@ impl NexusSchematic for EventData {
                 .create_resizable_empty_dataset::<f64>(labels::PULSE_HEIGHT, *event_chunk_size)?,
             event_id: group
                 .create_resizable_empty_dataset::<Channel>(labels::EVENT_ID, *event_chunk_size)?,
+            // 
             event_time_offset: group
-                .create_resizable_empty_dataset::<Time>(
+                .create_resizable_empty_dataset::<f32>(
                     labels::EVENT_TIME_OFFSET,
                     *event_chunk_size,
                 )?
-                .with_units(NexusUnits::Microseconds)?, // TODO: refactor this
+                .with_units(NexusUnits::Microseconds)?,
             event_time_zero,
             event_time_zero_offset,
             event_index: group
@@ -114,8 +109,6 @@ impl NexusSchematic for EventData {
                 .create_resizable_empty_dataset::<bool>(labels::RUNNING, *frame_chunk_size)?,
             veto_flags: group
                 .create_resizable_empty_dataset::<u16>(labels::VETO_FLAGS, *frame_chunk_size)?,
-            run_state: group.create_resizable_empty_dataset::<u64>(labels::RUN_STATE, *frame_chunk_size)?,
-            proton_charge: group.create_resizable_empty_dataset::<f64>(labels::PROTON_CHARGE, *frame_chunk_size)?,
         })
     }
 
@@ -138,9 +131,6 @@ impl NexusSchematic for EventData {
         let offset = Some(event_time_zero_offset.get_datetime()?);
         let event_frame_number = group.get_dataset(labels::EVENT_FRAME_NUMBER)?;
 
-        let run_state= group.get_dataset(labels::RUN_STATE)?;
-        let proton_charge = group.get_dataset(labels::PROTON_CHARGE)?;
-
         Ok(Self {
             offset,
             num_messages: event_time_zero.size(),
@@ -157,8 +147,6 @@ impl NexusSchematic for EventData {
             frame_complete,
             running,
             veto_flags,
-            run_state,
-            proton_charge,
         })
     }
 }
@@ -207,6 +195,7 @@ impl EventData {
 
 /// Appends data from the provided [FrameAssembledEventListMessage] message.
 impl NexusMessageHandler<PushFrameEventList<'_>> for EventData {
+    //TODO SCALE EVENT TIME HERE AS IT'LL NEED *1000 AND CAST TO F32
     fn handle_message(
         &mut self,
         &PushFrameEventList { message }: &PushFrameEventList<'_>,
@@ -276,26 +265,28 @@ impl NexusMessageHandler<PushEv44EventData<'_>> for EventData {
         // Fields Indexed By Frame
         self.event_index.append_value(self.num_events)?;
 
-        // Recalculate time_zero of the frame to be relative to the offset value
+        // Recalculate time_zero of the frame to be relative to epoch time
         // (set at the start of the run).
-        // let time_zero = self
-        //     .get_time_zero(message)
-        //     .err_dataset(&self.event_time_zero)?;
 
-        // self.event_time_zero.append_value(time_zero)?;
+        // TODO assert that refrernce_time index is a 1-element array with a single value of 0
+
+        assert!(message.reference_time_index().len() == 1);
+        assert!(message.reference_time_index().get(0) == 0);
         
-        self.event_frame_number
-            .append_value(self.num_messages)?;
+        // TODO need to write why we're doing the *1000 multis here - schema specifices ns but we need to write us 
+        // offset is in milliseconds
+        self.event_time_zero.append_slice(&message.reference_time().into_iter().map(|value| value - self.offset.unwrap().timestamp_nanos_opt().unwrap()).map(|value| value as f32 / 1_000_000_000.0).collect::<Vec<_>>())?;
+        
+        self.event_frame_number.append_value(self.num_messages)?;
 
         let num_new_events = message.time_of_flight().map(|v| v.len()).unwrap_or(0);
         let total_events = self.num_events + num_new_events;
+        
 
         let times = message.time_of_flight().map(|tofs| {
-            tofs.into_iter().map(|value| value * 1000).collect()
+            tofs.into_iter().map(|value| value as f32 / 1000.0).collect()
         }).unwrap_or(vec![]);
 
-
-        // TODO we need to actually figure this one out
         self.event_time_offset.append_slice(&times)?;
 
         if let Some(pixel_ids) = message.pixel_id() {
