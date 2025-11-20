@@ -12,8 +12,8 @@ use digital_muon_common::spanned::SpannedAggregator;
 use digital_muon_streaming_types::{
     aev2_frame_assembled_event_v2_generated::FrameAssembledEventListMessage,
     ecs_6s4t_run_stop_generated::RunStop, ecs_al00_alarm_generated::Alarm,
-    ecs_f144_logdata_generated::f144_LogData, ecs_pl72_run_start_generated::RunStart,
-    ecs_ev44_events_generated::Event44Message
+    ecs_ev44_events_generated::Event44Message, ecs_f144_logdata_generated::f144_LogData,
+    ecs_pl72_run_start_generated::RunStart,
 };
 use glob::glob;
 #[cfg(test)]
@@ -238,8 +238,10 @@ impl<D: NexusEngineDependencies> NexusEngine<D> {
         Ok(())
     }
 
-    pub(crate) fn push_ev44_event_data(&mut self,
-                                       data: &Event44Message<'_>) -> NexusWriterResult<()> {
+    pub(crate) fn push_ev44_event_data(
+        &mut self,
+        data: &Event44Message<'_>,
+    ) -> NexusWriterResult<()> {
         // Ev44 don't have guaranteed wall clock timestamps so just use the current run
         if let Some(last_run) = self.run_cache.back_mut() {
             last_run.push_ev44_events(&self.nexus_settings, data)?;

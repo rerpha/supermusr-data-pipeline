@@ -7,9 +7,9 @@ use crate::nexus::NexusMessageHandler;
 
 use digital_muon_streaming_types::{
     aev2_frame_assembled_event_v2_generated::FrameAssembledEventListMessage,
-    ecs_al00_alarm_generated::Alarm, ecs_f144_logdata_generated::f144_LogData,
-    ecs_pl72_run_start_generated::RunStart, ecs_se00_data_generated::se00_SampleEnvironmentData,
-    ecs_ev44_events_generated::Event44Message,
+    ecs_al00_alarm_generated::Alarm, ecs_ev44_events_generated::Event44Message,
+    ecs_f144_logdata_generated::f144_LogData, ecs_pl72_run_start_generated::RunStart,
+    ecs_se00_data_generated::se00_SampleEnvironmentData,
 };
 use std::ops::Deref;
 
@@ -52,11 +52,9 @@ pub(crate) struct PushFrameEventList<'a> {
     pub(crate) message: &'a FrameAssembledEventListMessage<'a>,
 }
 
-
 pub(crate) struct PushEv44EventData<'a> {
     pub(crate) message: &'a Event44Message<'a>,
 }
-
 
 /// Tells [nexus_structure] to update the periods list in the `Periods` hdf5 group.
 ///

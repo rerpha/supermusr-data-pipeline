@@ -10,20 +10,20 @@ use super::{
         SampleEnvironmentLog, SetEndTime, UpdatePeriodList,
     },
 };
+use crate::run_engine::run_messages::PushEv44EventData;
 use crate::{error::NexusWriterResult, hdf5_handlers::NexusHDF5Result, nexus::NexusFileInterface};
 use chrono::{Duration, Utc};
 use digital_muon_common::spanned::SpanOnce;
 use digital_muon_streaming_types::{
     aev2_frame_assembled_event_v2_generated::FrameAssembledEventListMessage,
     ecs_6s4t_run_stop_generated::RunStop, ecs_al00_alarm_generated::Alarm,
-    ecs_f144_logdata_generated::f144_LogData, ecs_pl72_run_start_generated::RunStart,
-    ecs_ev44_events_generated::Event44Message
+    ecs_ev44_events_generated::Event44Message, ecs_f144_logdata_generated::f144_LogData,
+    ecs_pl72_run_start_generated::RunStart,
 };
 pub(crate) use run_parameters::{NexusConfiguration, RunParameters, RunStopParameters};
 pub(crate) use run_spans::RunSpan;
 use std::{io, path::Path};
 use tracing::{error, info, info_span};
-use crate::run_engine::run_messages::{PushEv44EventData};
 
 /// Represents a single run.
 ///
@@ -205,15 +205,14 @@ impl<I: NexusFileInterface> Run<I> {
         Ok(())
     }
 
-
-    pub(crate) fn push_ev44_events(&mut self,
-                                   nexus_settings: &NexusSettings,
-                                   events: &Event44Message) -> NexusWriterResult<()> {
+    pub(crate) fn push_ev44_events(
+        &mut self,
+        nexus_settings: &NexusSettings,
+        events: &Event44Message,
+    ) -> NexusWriterResult<()> {
         self.link_events_span();
-        self.file.handle_message(&PushEv44EventData {
-            message: events,
-
-        });
+        self.file
+            .handle_message(&PushEv44EventData { message: events });
         self.file.flush()?;
 
         self.parameters.update_last_modified();

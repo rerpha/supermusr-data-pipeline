@@ -7,6 +7,7 @@ mod sample;
 mod selog;
 
 use super::{NexusGroup, NexusMessageHandler, NexusSchematic};
+use crate::run_engine::run_messages::PushEv44EventData;
 use crate::{
     hdf5_handlers::{DatasetExt, GroupExt, HasAttributesExt, NexusHDF5Result},
     nexus::{DATETIME_FORMAT, DatasetUnitExt, NexusClass, NexusUnits},
@@ -28,7 +29,6 @@ use runlog::RunLog;
 use sample::Sample;
 use selog::SELog;
 use tracing::warn;
-use crate::run_engine::run_messages::{PushEv44EventData};
 
 /// Names of datasets/attribute and subgroups in the Entry struct
 mod labels {

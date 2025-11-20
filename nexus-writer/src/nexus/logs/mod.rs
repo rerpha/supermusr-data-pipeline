@@ -1,9 +1,9 @@
 //! Defines traits which, when implemented for appropriate flatbuffer messages,
 //! allow the messages to write their data into a given [Dataset].
 mod alarm;
+mod events;
 mod f114;
 mod se00;
-mod events;
 
 use crate::{hdf5_handlers::NexusHDF5Result, run_engine::NexusDateTime};
 use hdf5::{Dataset, types::TypeDescriptor};
